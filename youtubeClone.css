@@ -33,7 +33,6 @@ body svg {
 
 .menu-icone {
     display: flex;
-    cursor: pointer;
 
 }
 
@@ -89,9 +88,16 @@ body svg {
     height: 40px;
     display: flex;
     width: 100px;
-    padding: 10px;
+    padding: 10px 12px;
     margin: 20px;
     border-radius: 20px;
+    font-weight: 400;
+    font-size: medium;
+}
+
+.create-btn svg {
+    height: 20px;
+    width: 20px;
 }
 
 .notification-icon {
@@ -197,7 +203,8 @@ body svg {
 .shorts-video {
     margin-top: 10px;
     display: flex;
-    overflow-x: scroll;
+    overflow-x: auto;
+    scrollbar-width: none;
 }
 
 .Shorts {
@@ -353,29 +360,36 @@ body svg {
     width: 0;
     position: fixed;
     z-index: 1;
-    top: 0;
+    top: 80px;
     left: 0;
-    background-color: #ac7a7a;
-    /* overflow-x: hidden; */
-    transition: 0.5s;
-    padding-top: 60px;
+    background-color: black;
+    overflow-x: hidden;
+    transition: 0.3s;
+}
+
+.sidebar-close {
+    display: flex;
+    justify-content: end;
+}
+
+.sidebar-icon {
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 15px;
+
 }
 
 .sidebar a {
-    /* display: block;
-    text-align: center;
-    margin: 15px;
-    color: white;
-    font-size: 25px;
-    text-decoration: none;
-    transition: 0.3s;
-    cursor: pointer; */
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
     display: block;
+    text-align: center;
+    margin: 10px;
+    font-size: 20px;
+    text-decoration: none;
     transition: 0.3s;
+    cursor: pointer;
+    color: #818181;
 }
 
 .sidebar-close button {
@@ -391,4 +405,21 @@ body svg {
     background: black;
     fill: white;
     margin: 2px
+}
+
+.sidebar-icon a svg {
+    fill: #fff;
+    height: 25px;
+    width: 25px;
+}
+
+.sidebar-you-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 15px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-left: 45px;
 }

@@ -111,9 +111,9 @@ function listCads(Cards) {
                       </div>
                     <div class="description-heading">
                         <h3>${valuesCard.title}</h3>
-                        <p>${valuesCard.description}</p>
+                        <p onClick="deleteData('${valuesCard.id}')">${valuesCard.description}</p>
                     </div>
-                    <div class="">
+                  <div class="123" onClick="handleData('${valuesCard.title}','${valuesCard.description}','${valuesCard.id}')">
                         <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
                             viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true"
                             style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
@@ -159,7 +159,7 @@ window.onload = function () {
     },
     {
       id: 5,
-      title: "series",
+      title: "Series",
     },
     {
       id: 6,
@@ -171,11 +171,11 @@ window.onload = function () {
     },
     {
       id: 8,
-      title: "playlist",
+      title: "Playlist",
     },
     {
       id: 9,
-      title: "mantras",
+      title: "Mantras",
     },
     {
       id: 10,
@@ -183,15 +183,15 @@ window.onload = function () {
     },
     {
       id: 11,
-      title: "mixes",
+      title: "Mixes",
     },
     {
       id: 12,
-      title: "cricket",
+      title: "Cricket",
     },
     {
       id: 13,
-      title: "songs",
+      title: "Songs",
     },
   ];
   function categoryList(category) {
@@ -218,6 +218,7 @@ function myFunction() {
 }
 
 // ...........................................Upload video data ......................
+
 function submitData() {
   let videoTitle = document.getElementById("video-title").value;
   let videoDescription = document.getElementById("video-description").value;
@@ -231,6 +232,7 @@ function submitData() {
   };
   Cards.push(tempData);
   console.log(Cards);
+  addCards("http://localhost:3000/Cards", tempData);
 
   container.innerHTML = listCads(Cards);
   closeFn();
@@ -238,7 +240,7 @@ function submitData() {
   videoDescription = document.getElementById("video-description").value = "";
   uploadVideo = document.getElementById("myFile").value = "";
 
-  localStorage.setItem("videoList", JSON.stringify(Cards));
+  let ADdddd = localStorage.setItem("videoList", JSON.stringify(Cards));
 }
 
 // .........................................PopUp function....................
@@ -249,4 +251,91 @@ function popupFn() {
 function closeFn() {
   document.getElementById("overlay").style.display = "none";
   document.getElementById("popupDialog").style.display = "none";
+}
+
+// .....................sideNavBar ........................
+
+function openNav() {
+  document.getElementById("side-navbar").style.width = "225px";
+}
+function closeNav() {
+  document.getElementById("side-navbar").style.width = "0";
+}
+
+// ...........Json Server Data ............
+
+let responseData = [];
+
+function fetchData() {
+  fetch("http://localhost:3000/Student")
+    .then((Response) => Response.json())
+    .then((json) => {
+      responseData = json;
+      console.log(">>>>>>>>>>>>>>>>>responseData", responseData);
+    });
+}
+
+fetchData();
+console.log("responseData", responseData);
+
+// Add Data From JSON database
+
+async function postData(url, bodyData) {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(bodyData),
+  });
+  return response.json();
+}
+postData("http://localhost:3000/Student", addData);
+
+console.log("API called");
+
+function CardsData() {
+  fetch("http://localhost:3000/Cards")
+    .then((response) => response.json())
+    .then((json) => console.log("Cards Data", json));
+}
+CardsData();
+
+async function addCards(url, requestData) {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(requestData),
+  });
+
+  return response.json();
+}
+
+async function handleData(title, description, id) {
+  // console.log("testcallll", id, description, title);
+  let requestData = {
+    id: id,
+    title: title,
+    description: description,
+  };
+  const response = await fetch(`http://localhost:3000/Cards/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(requestData),
+  });
+  return response.json();
+}
+handleData("Heelo Lalit", "computer", 4);
+
+async function deleteData(id) {
+  event.preventDefault();
+  const response = await fetch(`http://localhost:3000/Cards/${id}`, {
+    method: "DELETE",
+    mode: "cors",
+  });
+  return response.json();
 }
